@@ -10,26 +10,28 @@ use Symfony\Component\HttpFoundation\Response;
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => 'php://stderr',
 ));
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
+
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
       'driver' => 'pdo_mysql',
-      'dbname' => 'database',
-      'user' => 'user',
-      'password' => 'password',
-      'host'=> "www.host.net",
+      'dbname' => 'heroku_58f81519d0861be',
+      'user' => 'bb75251cb2c1f9',
+      'password' => '0b7d2b1c',
+      'host'=> "us-cdbr-iron-east-01.cleardb.net",
     )
 ));
+
 $app->register(new Silex\Provider\SessionServiceProvider, array(
     'session.storage.save_path' => dirname(__DIR__) . '/tmp/sessions'
 ));
+
 $app->before(function(Request $request) use($app){
     $request->getSession()->start();
 });
+
 $app->get("/",function() use($app){
-    return $app['twig']->render("index.html.twig");
+    return "INVALID_PARAMETERS";
 });
+
 $app->run();
 ?>
