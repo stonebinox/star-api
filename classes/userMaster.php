@@ -4,7 +4,7 @@
  * Main class file for user_master table.
  * @author Anoop Santhanam
  */
-class userMaster
+class userMaster extends adminMaster
 {
     
     public $app = NULL;
@@ -33,10 +33,14 @@ class userMaster
         if ($this->user_id != NULL) {
             $userID = $this->user_id;
             $app = $this->app;
-            $um = "SELECT iduser_master FROM user_master WHERE stat = '1' AND iduser_master = '$userID'";
+            $um = "SELECT admin_master_idadmin_master FROM user_master WHERE stat = '1' AND iduser_master = '$userID'";
             $um = $app['db']->fetchAssoc($um);
             if (!empty($um)) {
-                return TRUE;
+                $adminId = $um['admin_master_idadmin_master'];
+                adminMaster::__construct($adminID);
+                if ($this->adminValid) {
+                    return TRUE;
+                }
             }
         }
 
@@ -55,6 +59,13 @@ class userMaster
             $um = "SELECT * FROM user_master WHERE iduser_master = '$userID'";
             $um = $app['db']->fetchAssoc($um);
             if (!empty($um)) {
+                $adminID = $um['admin_master_idadmin_master'];
+                adminMaster::__construct($adminID);
+                $admin = adminMaster::getAdmin();
+                if (is_array($admin)) {
+                    $um['admin_master_idadmin_master'] = $admin;
+                }
+                
                 return $um;
             }
 
@@ -73,7 +84,10 @@ class userMaster
     public function getUsers(int $offset = 0): array
     {
         $app = $this->app;
-        $um = "SELECT iduser_master FROM user_master WHERE stat = '1' ORDER BY iduser_master DESC $offset, 10";
+        $um = "SELECT iduser_master FROM user_master WHERE stat = '1'";
+        if ($offset >= 0) {
+            $um = "SELECT iduser_master FROM user_master WHERE stat = '1' ORDER BY iduser_master DESC $offset, 10";
+        }
         $um = $app['db']->fetchAll($um);
         if (!empty($um)) {
             $users = array();
@@ -100,7 +114,7 @@ class userMaster
         $userID = $this->user_id;
         $um = "UPDATE user_master SET stat = '0' WHERE iduser_master = '$userID'";
         $um - $app['db']->executeUpdate($um);
-        
+
         return messageManager::info("USER_DELETED");
     }
 }
