@@ -2,14 +2,16 @@
 
 /**
  * Class file for managing response messages.
- * @author Anoop Santhanam
+ * 
+ * @author Anoop Santhanam <anoop.santhanam@gmail.com>
  */
-class messageManager
+class MessageManager
 {
     
     /**
      * Method to generate an error message
-     * @param string The message to be generated
+     * 
+     * @param string $message The message to be generated
      * 
      * @return array The response array.
      */
@@ -20,7 +22,8 @@ class messageManager
 
     /**
      * Method to generate a normal message.
-     * @param string The message to be generated
+     * 
+     * @param string $message The message to be generated
      * 
      * @return The response array.
      */

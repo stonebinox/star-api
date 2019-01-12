@@ -2,49 +2,52 @@
 
 /**
  * Main class file for user_master table.
- * @author Anoop Santhanam
+ * 
+ * @author Anoop Santhanam <anoop.santhanam@gmail.com>
  */
-class userMaster extends adminMaster
+class UserMaster extends AdminMaster
 {
     
-    public $app = NULL;
-    private $user_id = NULL;
-    public $userValid = FALSE;
+    public $app = null;
+    private $_user_id = null;
+    public $userValid = false;
 
     /**
      * Constructs a user object.
+     * 
      * @param int $userID the user id for the user object to be built.
      */
-    public function __construct(int $userID = NULL)
+    public function __construct(int $userID = null)
     {
         $this->app = $GLOBALS['app'];
-        if ($userID != NULL) {
-            $this->user_id = addslashes(htmlentities($userID));
+        if ($userID != null) {
+            $this->_user_id = addslashes(htmlentities($userID));
             $this->userValid = $this->verifyUser();
         }
     }
 
     /**
      * Method to verify the current object.
+     * 
      * @return bool 
      */
     public function verifyUser(): bool
     {
-        if ($this->user_id != NULL) {
-            $userID = $this->user_id;
+        if ($this->user_id != null) {
+            $userID = $this->_user_id;
             $app = $this->app;
             $um = "SELECT admin_master_idadmin_master FROM user_master WHERE stat = '1' AND iduser_master = '$userID'";
             $um = $app['db']->fetchAssoc($um);
             if (!empty($um)) {
                 $adminId = $um['admin_master_idadmin_master'];
-                adminMaster::__construct($adminID);
+                AdminMaster::__construct($adminID);
                 if ($this->adminValid) {
-                    return TRUE;
+                    return true;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -55,7 +58,7 @@ class userMaster extends adminMaster
     {
         if ($this->userValid) {
             $app = $this->app;
-            $userID = $this->user_id;
+            $userID = $this->_user_id;
             $um = "SELECT * FROM user_master WHERE iduser_master = '$userID'";
             $um = $app['db']->fetchAssoc($um);
             if (!empty($um)) {
@@ -72,7 +75,7 @@ class userMaster extends adminMaster
             return $um;
         }
 
-        return messageManager::error("INVALID_USER_ID");
+        return MessageManager::error("INVALID_USER_ID");
     }
 
     /**
@@ -101,7 +104,7 @@ class userMaster extends adminMaster
             return $users;
         }
 
-        return messageManager::error("NO_USERS_FOUND");
+        return MessageManager::error("NO_USERS_FOUND");
     }
 
     /**
@@ -111,10 +114,10 @@ class userMaster extends adminMaster
     public function deleteUser(): array
     {
         $app = $this->app;
-        $userID = $this->user_id;
+        $userID = $this->_user_id;
         $um = "UPDATE user_master SET stat = '0' WHERE iduser_master = '$userID'";
         $um - $app['db']->executeUpdate($um);
 
-        return messageManager::info("USER_DELETED");
+        return MessageManager::info("USER_DELETED");
     }
 }
