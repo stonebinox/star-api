@@ -46,6 +46,7 @@ class AdminMaster extends MessageManager
 
     /**
      * Gets an admin object
+     * 
      * @return array The admin array or a failure message
      */
     public function getAdmin(): array
@@ -65,6 +66,7 @@ class AdminMaster extends MessageManager
 
     /**
      * Gets all admin objects.
+     * 
      * @return array The resultant admin objects.
      */
     public function getAdmins(): array
