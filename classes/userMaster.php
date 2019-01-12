@@ -52,6 +52,7 @@ class UserMaster extends AdminMaster
 
     /**
      * To get a user object.
+     * 
      * @return array Array of the user data.
      */
     public function getUser(): array
@@ -80,6 +81,7 @@ class UserMaster extends AdminMaster
 
     /**
      * To get a collection of user objects.
+     * 
      * @param int $offset defaults to 0. -1 gets all the user rows.
      * 
      * @return array Array of all the users.
@@ -109,6 +111,7 @@ class UserMaster extends AdminMaster
 
     /**
      * To delete a user object
+     * 
      * @return array response to the user object being deleted.
      */
     public function deleteUser(): array
